@@ -40,7 +40,7 @@ export default async function DashboardLayout({
         <section>
           <nav className="border-b border-muted p-5">
             <div className="flex flex-row items-center justify-between">
-              <span className="font-bold text-primary">FlySha Dashboard</span>
+              <span className="font-bold text-primary text-2xl">FlySha Dashboard</span>
             </div>
           </nav>
           <section className="flex flex-row gap-5 items-start flex-nowrap">
