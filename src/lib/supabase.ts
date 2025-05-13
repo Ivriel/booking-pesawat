@@ -18,21 +18,38 @@ export const uploadFile = async (file: File) => {
                 cacheControl: '3600',
                 upsert: false
             })
-            if(error) { 
-                throw new Error(error.message)
-            }
-            return filename;
+        if (error) {
+            throw new Error(error.message)
+        }
+        return filename;
     } catch (error) {
-       console.log(error)
-       return error
+        console.log(error)
+        return error
     }
 }
 
-export const getUrlFile = (filename:string) => {
+export const getUrlFile = (filename: string) => {
     const { data } = supabase
-  .storage
-  .from('imageupload') // nama bucket supabase
-  .getPublicUrl(`public/airplanes/${filename}`)
-  
-  return data.publicUrl;
+        .storage
+        .from('imageupload') // nama bucket supabase
+        .getPublicUrl(`public/airplanes/${filename}`)
+
+    return data.publicUrl;
+}
+
+export const deleteFile = async (filename: string) => {
+    try {
+        const { data, error } = await supabase
+            .storage
+            .from('imageupload')
+            .remove([`public/airplanes/${filename}`])
+
+        if (error) {
+            throw new Error(error.message)
+        }
+        return data 
+    } catch (error) {
+        console.log(error)
+        return error
+    }
 }

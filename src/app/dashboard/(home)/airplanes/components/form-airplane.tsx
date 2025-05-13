@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import React from 'react'
 import type { ActionResult } from '@/app/dashboard/(auth)/signin/form/actions'
 import { useFormState, useFormStatus } from 'react-dom'
-import { saveAirplane } from '../lib/actions'
+import { saveAirplane, updateAirplane } from '../lib/actions'
 import type { Airplane } from '@prisma/client'
 
 interface FormAirplaneProps{
@@ -26,7 +26,8 @@ const SubmitButton = ()=> { // komponen button yang disertai pending animation s
 }
 
 function FormAirplane({type,defaultValues}:FormAirplaneProps) {
-  const [state, formAction] = useFormState(saveAirplane, initialFormState)
+  const updateAirplaneWithId =  (_state:ActionResult,formData:FormData)=> updateAirplane(null,defaultValues?.id!!,formData)
+  const [state, formAction] = useFormState(type==="ADD" ?saveAirplane:updateAirplaneWithId, initialFormState)
   return (
     <form action={formAction} className='w-[40%] space-y-4'>
        {state.errorTitle !== null && (
@@ -55,7 +56,7 @@ function FormAirplane({type,defaultValues}:FormAirplaneProps) {
           <Label htmlFor='code'>
             Upload Foto
           </Label>
-          <Input type='file' placeholder='Upload Foto...' name='image' id='image' className='cursor-pointer' required/>
+          <Input type='file' placeholder='Upload Foto...' name='image' id='image' className='cursor-pointer'/>
         </div>
         <SubmitButton/>
     </form>

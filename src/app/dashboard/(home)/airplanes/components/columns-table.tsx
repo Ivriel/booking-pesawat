@@ -6,6 +6,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Pencil } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import DeleteAirplane from "./delete-airplane";
 
 export const columns: ColumnDef<Airplane>[] = [
     {
@@ -39,6 +40,7 @@ export const columns: ColumnDef<Airplane>[] = [
                             Edit
                         </Link>
                     </Button>
+                    <DeleteAirplane id={plane.id}/>
                 </div>
             )
         }
