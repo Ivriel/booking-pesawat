@@ -3,22 +3,53 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import React from 'react'
+import type { ActionResult } from '@/app/dashboard/(auth)/signin/form/actions'
+import { useFormState, useFormStatus } from 'react-dom'
+import { saveAirplane } from '../lib/actions'
+import type { Airplane } from '@prisma/client'
 
+interface FormAirplaneProps{
+  type?:"ADD" | "EDIT"
+  defaultValues?:Airplane | null // akan dapat data atau tidak (null)
+}
 
-function FormAirplane() {
+const initialFormState: ActionResult = {
+    errorTitle: null,
+    errorDesc: []
+}
+
+const SubmitButton = ()=> { // komponen button yang disertai pending animation saat mengirim request pakai useformstatus
+  const {pending} = useFormStatus()
   return (
-    <form action="" className='w-[40%] space-y-4'>
+     <Button disabled={pending} className='w-full cursor-pointer'>Submit</Button> // akan disabled ketika pending 
+  )
+}
+
+function FormAirplane({type,defaultValues}:FormAirplaneProps) {
+  const [state, formAction] = useFormState(saveAirplane, initialFormState)
+  return (
+    <form action={formAction} className='w-[40%] space-y-4'>
+       {state.errorTitle !== null && (
+                    <div className='my-7 bg-red-500  p-4 rounded-lg text-white'>
+                        <div className='font-bold mb-4'>{state.errorTitle}</div>
+                        <ul className='list-disc list-inside'>
+                            {state.errorDesc?.map((value, index) => (
+                                <li key={index+value}>{value}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
         <div className='space-y-2'>
           <Label htmlFor='code'>
             Kode Pesawat
           </Label>
-          <Input placeholder='Kode Pesawat...' name='code' id='code' required/>
+          <Input placeholder='Kode Pesawat...' name='code' id='code' defaultValue={defaultValues?.code} required/>
         </div>
         <div className='space-y-2'>
           <Label htmlFor='code'>
             Nama Pesawat
           </Label>
-          <Input placeholder='Nama Pesawat...' name='name' id='name' required/>
+          <Input placeholder='Nama Pesawat...' name='name' id='name' defaultValue={defaultValues?.name} required/>
         </div>
         <div className='space-y-2'>
           <Label htmlFor='code'>
@@ -26,7 +57,7 @@ function FormAirplane() {
           </Label>
           <Input type='file' placeholder='Upload Foto...' name='image' id='image' className='cursor-pointer' required/>
         </div>
-        <Button className='w-full cursor-pointer'>Submit</Button>
+        <SubmitButton/>
     </form>
   )
 }
