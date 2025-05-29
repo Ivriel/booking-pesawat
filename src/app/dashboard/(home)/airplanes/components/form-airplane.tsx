@@ -1,12 +1,12 @@
 "use client"
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Button } from '@/components/ui/button'
 import React from 'react'
 import type { ActionResult } from '@/app/dashboard/(auth)/signin/form/actions'
-import { useFormState, useFormStatus } from 'react-dom'
+import { useFormState} from 'react-dom'
 import { saveAirplane, updateAirplane } from '../lib/actions'
 import type { Airplane } from '@prisma/client'
+import SubmitButtonForm from '../../components/submit-form-button'
 
 interface FormAirplaneProps{
   type?:"ADD" | "EDIT"
@@ -18,12 +18,6 @@ const initialFormState: ActionResult = {
     errorDesc: []
 }
 
-const SubmitButton = ()=> { // komponen button yang disertai pending animation saat mengirim request pakai useformstatus
-  const {pending} = useFormStatus()
-  return (
-     <Button disabled={pending} className='w-full cursor-pointer'>Submit</Button> // akan disabled ketika pending 
-  )
-}
 
 function FormAirplane({type,defaultValues}:FormAirplaneProps) {
   const updateAirplaneWithId =  (_state:ActionResult,formData:FormData)=> updateAirplane(null,defaultValues?.id!!,formData)
@@ -58,7 +52,7 @@ function FormAirplane({type,defaultValues}:FormAirplaneProps) {
           </Label>
           <Input type='file' placeholder='Upload Foto...' name='image' id='image' className='cursor-pointer'/>
         </div>
-        <SubmitButton/>
+        <SubmitButtonForm/>
     </form>
   )
 }
