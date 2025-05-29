@@ -15,7 +15,7 @@ const SubmitButton = () => {
     const { pending } = useFormStatus()
     return (
         <Button disabled={pending} className='w-full cursor-pointer' type='submit'>
-            {pending?"Loading":"Sign In"}
+            {pending?"Loading":"Sign In"} 
         </Button>
     )
 }

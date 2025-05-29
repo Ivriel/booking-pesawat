@@ -29,6 +29,7 @@ export const columns: ColumnDef<Airplane>[] = [
     },
     {
         id: 'actions',
+        header:'Actions',
         cell: ({ row }) => {
             const plane = row.original
 
